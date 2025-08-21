@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Мое Web App</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+      body {
+        font-family: sans-serif;
+        color: var(--tg-theme-text-color);
+        background-color: var(--tg-theme-bg-color);
+        text-align: center;
+        padding: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Привет, это мое первое Web App в Telegram!</h1>
+    <p>Информация о пользователе появится ниже.</p>
+    <div id="user-info"></div>
+
+    <script>
+      // Получаем объект WebApp
+      let tg = window.Telegram.WebApp;
+
+      // Расширяем приложение на всю высоту
+      tg.expand();
+
+      // Показываем информацию о пользователе
+      let userInfoDiv = document.getElementById("user-info");
+      if (tg.initDataUnsafe?.user) {
+        userInfoDiv.innerHTML = `
+                <p>ID: ${tg.initDataUnsafe.user.id}</p>
+                <p>Имя: ${tg.initDataUnsafe.user.first_name}</p>
+                <p>Юзернейм: @${tg.initDataUnsafe.user.username}</p>
+            `;
+      } else {
+        userInfoDiv.innerText =
+          "Не удалось получить информацию о пользователе.";
+      }
+
+      // Пример работы с главной кнопкой
+      tg.MainButton.text = "Закрыть";
+      tg.MainButton.show();
+      tg.MainButton.onClick(function () {
+        tg.close();
+      });
+    </script>
+  </body>
+</html>
